@@ -1,0 +1,151 @@
+generator client {
+  provider = "prisma-client"
+  output   = "./generated/prisma"
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+
+datasource db {
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  extensions = [postgis] // required for geom field
+}
+
+enum Role {
+  USER
+  EXPERT
+  ADMIN
+}
+
+enum PostStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  VERIFIED
+}
+
+enum SightingStatus {
+  PENDING
+  VERIFIED
+  REJECTED
+}
+
+model User {
+  uid        String      @id // Firebase UID
+  name       String?
+  email      String      @unique
+  role       Role        @default(USER)
+  createdAt  DateTime    @default(now())
+
+  posts      SpeciesPost[]
+  sightings  Sighting[]
+  verified   SpeciesPost[] @relation("ExpertVerifier")
+}
+
+model Species {
+  id                 String     @id @default(uuid())
+  scientificName     String
+  commonName         String?
+  description        String?
+  imageUrl           String?
+  diet               String?
+  length             String?
+  weight             String?
+  lifespan           String?
+  conservationStatus String?
+  habitat            String?
+  speciesType        String?
+  
+  // Identification fields
+  coloration         String?
+  bodyShape          String?
+  distinguishingMarks String?
+  physicalFeatures   String?
+  tracks             String?
+  vocalizations      String?
+  
+  // Habitat fields
+  elevationRange     String?
+  climate            String?
+  waterRequirements  String?
+  primaryRange       String?
+  seasonalPresence   String?
+  
+  createdAt          DateTime   @default(now())
+
+  sightings          Sighting[]
+
+  @@index([scientificName])
+}
+
+model Location {
+  id           String   @id @default(uuid())
+  name         String
+  description  String?
+  region       String?
+  municipality String?
+  province     String?
+  country      String?
+  habitatType  String?
+
+  latitude     Float?
+  longitude    Float?
+
+  createdAt    DateTime @default(now())
+  sightings    Sighting[]
+}
+
+model Sighting {
+  id           String          @id @default(uuid())
+  userUid      String
+  speciesId    String?
+  locationId   String?
+  locationName String?
+  notes        String?
+
+  status       SightingStatus  @default(PENDING)
+  observedAt   DateTime
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+
+  // PostGIS point geometry (EPSG:4326)
+  geom         Unsupported("geometry(Point, 4326)")?
+
+  // Relations
+  user         User            @relation(fields: [userUid], references: [uid])
+  species      Species?        @relation(fields: [speciesId], references: [id])
+  location     Location?       @relation(fields: [locationId], references: [id])
+
+  media        Media[]
+
+  @@index([status])
+  @@index([userUid])
+  @@index([speciesId])
+  @@index([observedAt])
+}
+
+model Media {
+  id         String   @id @default(uuid())
+  sightingId String
+  url        String
+  mimeType   String
+  createdAt  DateTime @default(now())
+
+  sighting   Sighting @relation(fields: [sightingId], references: [id])
+}
+
+model SpeciesPost {
+  id            String      @id @default(uuid())
+  imageUrl      String
+  aiPrediction  String?
+  userNotes     String?
+  status        PostStatus  @default(PENDING)
+
+  userUid       String
+  user          User        @relation(fields: [userUid], references: [uid])
+
+  verifiedByUid String?
+  verifiedBy    User?       @relation("ExpertVerifier", fields: [verifiedByUid], references: [uid])
+
+  createdAt     DateTime    @default(now())
+}
