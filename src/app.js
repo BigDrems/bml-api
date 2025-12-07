@@ -14,9 +14,16 @@ import sightingRoutes from "./route/sightingRoute.js";
 dotenv.config();
 
 const app = express();
+const corsOptions = {
+  origin: process.env.FRONTEND_URL || 'http://localhost:3000', // Add your Vercel URL
+  credentials: true,
+  optionsSuccessStatus: 200,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
 
 // Middleware
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(helmet());
 app.use(morgan("dev"));
 app.use(express.json({ limit: "10mb" }));
