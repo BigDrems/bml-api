@@ -39,6 +39,15 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
+// Health check route
+app.get("/", (req, res) => {
+  res.status(200).json({ 
+    status: "ok", 
+    message: "BioMap Leyte API is running",
+    timestamp: new Date().toISOString()
+  });
+});
+
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
