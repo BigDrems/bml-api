@@ -1,4 +1,5 @@
 import { prisma } from "../prisma/client.js";
+import { firebaseAdmin } from "../config/firebase/firebase.js";
 
 /**
  * Get all users (Admin only)
@@ -45,9 +46,25 @@ export const updateUser = async (req, res) => {
  */
 export const deleteUser = async (req, res) => {
   try {
-    await prisma.user.delete({ where: { uid: req.params.id } });
-    res.status(200).json({ message: "User deleted" });
+    const userId = req.params.id;
+    
+    // Delete user from Firebase Authentication first
+    try {
+      await firebaseAdmin.auth().deleteUser(userId);
+      console.log(`Firebase user ${userId} deleted successfully`);
+    } catch (firebaseError) {
+      console.error("Firebase deletion error:", firebaseError);
+      // If user doesn't exist in Firebase, continue with database deletion
+      if (firebaseError.code !== 'auth/user-not-found') {
+        throw new Error(`Failed to delete user from Firebase: ${firebaseError.message}`);
+      }
+    }
+    
+    // Delete user from database
+    await prisma.user.delete({ where: { uid: userId } });
+    
+    res.status(200).json({ message: "User deleted from both Firebase and database" });
   } catch (err) {
     res.status(400).json({ message: "Failed to delete user", error: err.message });
   }
-};
+};;
