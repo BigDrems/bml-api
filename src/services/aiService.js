@@ -11,8 +11,8 @@ const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
  */
 export async function classifySpecies(imageInput, location = null) {
   try {
-    // Use a model that supports vision (e.g., gemini-2.0-flash or gemini-flash-latest)
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+    // Use a model that supports vision (e.g., gemini-2.5-flash-live)
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-live" });
 
     let imageBuffer;
     let mimeType = "image/jpeg";
