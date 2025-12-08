@@ -47,7 +47,16 @@ export const loginUser = async (req, res) => {
     const { idToken } = req.body;
 
     // Verify Firebase ID Token
-    const decoded = await getAuth().verifyIdToken(idToken, true);
+    let decoded;
+    try {
+      decoded = await getAuth().verifyIdToken(idToken, true);
+    } catch (firebaseErr) {
+      console.error("Firebase token verification error:", firebaseErr);
+      return res.status(401).json({ 
+        message: "Invalid or expired token", 
+        error: firebaseErr.message 
+      });
+    }
 
     // Check if user exists in DB
     const user = await prisma.user.findUnique({ where: { uid: decoded.uid } });
@@ -55,6 +64,7 @@ export const loginUser = async (req, res) => {
 
     res.status(200).json({ message: "Login successful", user });
   } catch (err) {
-    res.status(401).json({ message: "Invalid or expired token", error: err.message });
+    console.error("Login error:", err);
+    res.status(500).json({ message: "Login failed", error: err.message });
   }
 };
