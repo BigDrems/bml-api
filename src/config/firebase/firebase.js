@@ -10,7 +10,7 @@ const __dirname = dirname(__filename);
 let serviceAccount;
 
 // For production (Render), use secret file
-const secretFilePath = "/etc/secrets/firebase-service-account.json";
+const secretFilePath = "/etc/secrets/biomap-leyte-firebase-adminsdk-fbsvc-2594ce8065.json";
 if (existsSync(secretFilePath)) {
   const fileContent = readFileSync(secretFilePath, "utf8");
   serviceAccount = JSON.parse(fileContent);
