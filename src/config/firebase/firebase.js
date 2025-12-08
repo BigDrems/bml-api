@@ -20,7 +20,7 @@ if (existsSync(secretFilePath)) {
 } else {
   // For local development, use JSON file
   const require = createRequire(import.meta.url);
-  serviceAccount = require("./biomap-leyte-firebase-adminsdk-fbsvc-2594ce8065.json");
+  serviceAccount = require("../firebase/biomap-leyte-firebase-adminsdk-fbsvc-2594ce8065.json");
 }
 
 admin.initializeApp({
