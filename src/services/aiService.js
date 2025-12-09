@@ -221,15 +221,6 @@ export async function identifyLocation(latitude, longitude) {
 
     const address = data.address || {};
     
-    // Log for debugging
-    console.log("Reverse geocoding result:", {
-      lat: latitude,
-      lng: longitude,
-      display_name: data.display_name,
-      address: address
-    });
-    
-    // Build a specific location name from the most specific available data
     // Priority: specific landmarks > barangay/village > municipality
     const locationName = 
       data.name ||  // Use the place name if available

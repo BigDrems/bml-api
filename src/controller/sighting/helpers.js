@@ -70,12 +70,9 @@ export const runAIClassification = async (file, lat, lng) => {
  */
 export const runAILocationIdentification = async (lat, lng) => {
   try {
-    console.log(`Identifying location for coordinates: ${lat}, ${lng}`);
-    const result = await identifyLocation(parseFloat(lat), parseFloat(lng));
-    console.log(`Location identified: ${result?.locationName}`);
+    const result = identifyLocation(parseFloat(lat), parseFloat(lng));
     return result;
   } catch (err) {
-    console.warn("AI location identification failed:", err.message);
     return null;
   }
 };

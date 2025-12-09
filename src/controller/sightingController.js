@@ -371,12 +371,13 @@ export const getAllSightingsGeoJSON = async (req, res) => {
   try {
     const { status, speciesId } = req.query;
 
-    // Get all sightings with geom, applying filters
+    // Get all sightings with geom, applying filters, and join Location for municipality
     const sightingsWithGeo = await prisma.$queryRaw`
       SELECT 
         s.id,
         s."speciesId",
         s."locationName",
+        l.municipality,
         s.notes,
         s.status,
         s."observedAt",
@@ -384,6 +385,7 @@ export const getAllSightingsGeoJSON = async (req, res) => {
         ST_Y(s.geom) as latitude,
         ST_AsGeoJSON(s.geom) as geojson
       FROM "Sighting" s
+      LEFT JOIN "Location" l ON s."locationId" = l.id
       WHERE s.geom IS NOT NULL
         AND (${speciesId}::text IS NULL OR s."speciesId" = ${speciesId})
         AND (${status}::text IS NULL OR s.status::"SightingStatus" = ${status}::"SightingStatus")
@@ -406,6 +408,7 @@ export const getAllSightingsGeoJSON = async (req, res) => {
           speciesId: s.speciesId,
           species: speciesMap.get(s.speciesId) || null,
           locationName: s.locationName,
+          municipality: s.municipality,
           notes: s.notes,
           status: s.status,
           observedAt: s.observedAt,
