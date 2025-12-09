@@ -133,6 +133,8 @@ exports.Prisma.SpeciesScalarFieldEnum = {
   id: 'id',
   scientificName: 'scientificName',
   commonName: 'commonName',
+  class: 'class',
+  family: 'family',
   description: 'description',
   imageUrl: 'imageUrl',
   diet: 'diet',

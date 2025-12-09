@@ -9,6 +9,8 @@ import {
   updateSighting,
   deleteSighting,
   verifySighting,
+  approveSighting,
+  rejectSighting,
   getNearbySightings,
   getAllSightingsGeoJSON,
   getSightingsInBounds,
@@ -36,6 +38,10 @@ router.put("/:id", updateSighting);
 router.delete("/:id", deleteSighting);
 
 // Expert/Admin verification
-router.put("/:id/verify", expertOnly, verifySighting);
+router.patch("/:id/verify", expertOnly, verifySighting);
+
+// Admin approve/reject
+router.patch("/:id/approve", adminOnly, approveSighting);
+router.patch("/:id/reject", adminOnly, rejectSighting);
 
 export default router;

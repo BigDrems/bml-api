@@ -133,17 +133,29 @@ export async function classifySpecies(imageInput, location = null) {
       };
     }
 
+    // Helper function to clean conservation status - keep only first 1-2 words before parenthesis
+    const cleanConservationStatus = (status) => {
+      if (!status) return null;
+      // Remove anything in parentheses and trim
+      const cleaned = status.replace(/\s*\(.*?\)/g, '').trim();
+      // Take only first 1-2 words
+      const words = cleaned.split(/\s+/);
+      return words.slice(0, 2).join(' ');
+    };
+
     return {
       label: data.label || "Unknown",
       confidence: data.confidence || 0,
       scientificName: data.scientificName,
       commonName: data.commonName,
+      class: data.taxonomy?.class || null,
+      family: data.taxonomy?.family || null,
       description: data.description,
       diet: data.diet,
       length: data.length,
       weight: data.weight,
       lifespan: data.lifespan,
-      conservationStatus: data.conservationStatus,
+      conservationStatus: cleanConservationStatus(data.conservationStatus),
       habitat: data.habitat,
       speciesType: data.speciesType,
       // Identification fields

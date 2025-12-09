@@ -99,6 +99,8 @@ export const findOrCreateSpecies = async (tx, aiResult, mediaData) => {
       data: {
         scientificName: aiResult.scientificName,
         commonName: aiResult.commonName || aiResult.label,
+        class: aiResult.class || null,
+        family: aiResult.family || null,
         description: aiResult.description || `Automatically identified by AI (Confidence: ${(aiResult.confidence * 100).toFixed(1)}%)`,
         imageUrl,
         diet: aiResult.diet || null,
@@ -126,7 +128,7 @@ export const findOrCreateSpecies = async (tx, aiResult, mediaData) => {
   }
 
   // Update existing species if missing AI-generated fields
-  const needsUpdate = !species.diet || !species.length || !species.weight || !species.lifespan || 
+  const needsUpdate = !species.class || !species.family || !species.diet || !species.length || !species.weight || !species.lifespan || 
     !species.conservationStatus || !species.habitat || !species.speciesType ||
     !species.coloration || !species.bodyShape || !species.distinguishingMarks ||
     !species.physicalFeatures || !species.elevationRange || !species.climate ||
@@ -136,6 +138,8 @@ export const findOrCreateSpecies = async (tx, aiResult, mediaData) => {
     return tx.species.update({
       where: { id: species.id },
       data: {
+        class: species.class || aiResult.class || null,
+        family: species.family || aiResult.family || null,
         diet: species.diet || aiResult.diet || null,
         length: species.length || aiResult.length || null,
         weight: species.weight || aiResult.weight || null,

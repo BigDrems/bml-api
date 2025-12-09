@@ -17,12 +17,73 @@ export const createSpecies = async (req, res) => {
 };
 
 /**
- * Get all species
+ * Get all species with filtering and search
+ * Query params: search, conservationStatus, family, class, speciesType, page, limit
  */
 export const getAllSpecies = async (req, res) => {
   try {
-    const species = await prisma.species.findMany({ orderBy: { createdAt: "desc" } });
-    res.status(200).json(species);
+    const { 
+      search, 
+      conservationStatus, 
+      family, 
+      class: speciesClass,
+      speciesType,
+      page = 1,
+      limit = 100
+    } = req.query;
+
+    const where = {};
+
+    // Search filter - searches in scientificName, commonName, and description
+    if (search) {
+      where.OR = [
+        { scientificName: { contains: search, mode: 'insensitive' } },
+        { commonName: { contains: search, mode: 'insensitive' } },
+        { description: { contains: search, mode: 'insensitive' } }
+      ];
+    }
+
+    // Conservation status filter
+    if (conservationStatus) {
+      where.conservationStatus = { contains: conservationStatus, mode: 'insensitive' };
+    }
+
+    // Family filter
+    if (family) {
+      where.family = { contains: family, mode: 'insensitive' };
+    }
+
+    // Class filter
+    if (speciesClass) {
+      where.class = { contains: speciesClass, mode: 'insensitive' };
+    }
+
+    // Species type filter
+    if (speciesType) {
+      where.speciesType = { contains: speciesType, mode: 'insensitive' };
+    }
+
+    // Pagination
+    const pageNum = parseInt(page);
+    const limitNum = parseInt(limit);
+    const skip = (pageNum - 1) * limitNum;
+
+    const [species, total] = await Promise.all([
+      prisma.species.findMany({ 
+        where,
+        skip,
+        take: limitNum,
+        orderBy: { createdAt: "desc" } 
+      }),
+      prisma.species.count({ where })
+    ]);
+
+    res.status(200).json({
+      page: pageNum,
+      limit: limitNum,
+      total,
+      data: species
+    });
   } catch (err) {
     res.status(500).json({ message: "Failed to fetch species", error: err.message });
   }

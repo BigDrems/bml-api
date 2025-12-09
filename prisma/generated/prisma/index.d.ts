@@ -2642,6 +2642,8 @@ export namespace Prisma {
     id: string | null
     scientificName: string | null
     commonName: string | null
+    class: string | null
+    family: string | null
     description: string | null
     imageUrl: string | null
     diet: string | null
@@ -2669,6 +2671,8 @@ export namespace Prisma {
     id: string | null
     scientificName: string | null
     commonName: string | null
+    class: string | null
+    family: string | null
     description: string | null
     imageUrl: string | null
     diet: string | null
@@ -2696,6 +2700,8 @@ export namespace Prisma {
     id: number
     scientificName: number
     commonName: number
+    class: number
+    family: number
     description: number
     imageUrl: number
     diet: number
@@ -2725,6 +2731,8 @@ export namespace Prisma {
     id?: true
     scientificName?: true
     commonName?: true
+    class?: true
+    family?: true
     description?: true
     imageUrl?: true
     diet?: true
@@ -2752,6 +2760,8 @@ export namespace Prisma {
     id?: true
     scientificName?: true
     commonName?: true
+    class?: true
+    family?: true
     description?: true
     imageUrl?: true
     diet?: true
@@ -2779,6 +2789,8 @@ export namespace Prisma {
     id?: true
     scientificName?: true
     commonName?: true
+    class?: true
+    family?: true
     description?: true
     imageUrl?: true
     diet?: true
@@ -2879,6 +2891,8 @@ export namespace Prisma {
     id: string
     scientificName: string
     commonName: string | null
+    class: string | null
+    family: string | null
     description: string | null
     imageUrl: string | null
     diet: string | null
@@ -2923,6 +2937,8 @@ export namespace Prisma {
     id?: boolean
     scientificName?: boolean
     commonName?: boolean
+    class?: boolean
+    family?: boolean
     description?: boolean
     imageUrl?: boolean
     diet?: boolean
@@ -2952,6 +2968,8 @@ export namespace Prisma {
     id?: boolean
     scientificName?: boolean
     commonName?: boolean
+    class?: boolean
+    family?: boolean
     description?: boolean
     imageUrl?: boolean
     diet?: boolean
@@ -2979,6 +2997,8 @@ export namespace Prisma {
     id?: boolean
     scientificName?: boolean
     commonName?: boolean
+    class?: boolean
+    family?: boolean
     description?: boolean
     imageUrl?: boolean
     diet?: boolean
@@ -3006,6 +3026,8 @@ export namespace Prisma {
     id?: boolean
     scientificName?: boolean
     commonName?: boolean
+    class?: boolean
+    family?: boolean
     description?: boolean
     imageUrl?: boolean
     diet?: boolean
@@ -3029,7 +3051,7 @@ export namespace Prisma {
     createdAt?: boolean
   }
 
-  export type SpeciesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "scientificName" | "commonName" | "description" | "imageUrl" | "diet" | "length" | "weight" | "lifespan" | "conservationStatus" | "habitat" | "speciesType" | "coloration" | "bodyShape" | "distinguishingMarks" | "physicalFeatures" | "tracks" | "vocalizations" | "elevationRange" | "climate" | "waterRequirements" | "primaryRange" | "seasonalPresence" | "createdAt", ExtArgs["result"]["species"]>
+  export type SpeciesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "scientificName" | "commonName" | "class" | "family" | "description" | "imageUrl" | "diet" | "length" | "weight" | "lifespan" | "conservationStatus" | "habitat" | "speciesType" | "coloration" | "bodyShape" | "distinguishingMarks" | "physicalFeatures" | "tracks" | "vocalizations" | "elevationRange" | "climate" | "waterRequirements" | "primaryRange" | "seasonalPresence" | "createdAt", ExtArgs["result"]["species"]>
   export type SpeciesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sightings?: boolean | Species$sightingsArgs<ExtArgs>
     _count?: boolean | SpeciesCountOutputTypeDefaultArgs<ExtArgs>
@@ -3046,6 +3068,8 @@ export namespace Prisma {
       id: string
       scientificName: string
       commonName: string | null
+      class: string | null
+      family: string | null
       description: string | null
       imageUrl: string | null
       diet: string | null
@@ -3494,6 +3518,8 @@ export namespace Prisma {
     readonly id: FieldRef<"Species", 'String'>
     readonly scientificName: FieldRef<"Species", 'String'>
     readonly commonName: FieldRef<"Species", 'String'>
+    readonly class: FieldRef<"Species", 'String'>
+    readonly family: FieldRef<"Species", 'String'>
     readonly description: FieldRef<"Species", 'String'>
     readonly imageUrl: FieldRef<"Species", 'String'>
     readonly diet: FieldRef<"Species", 'String'>
@@ -8549,6 +8575,8 @@ export namespace Prisma {
     id: 'id',
     scientificName: 'scientificName',
     commonName: 'commonName',
+    class: 'class',
+    family: 'family',
     description: 'description',
     imageUrl: 'imageUrl',
     diet: 'diet',
@@ -8831,6 +8859,8 @@ export namespace Prisma {
     id?: StringFilter<"Species"> | string
     scientificName?: StringFilter<"Species"> | string
     commonName?: StringNullableFilter<"Species"> | string | null
+    class?: StringNullableFilter<"Species"> | string | null
+    family?: StringNullableFilter<"Species"> | string | null
     description?: StringNullableFilter<"Species"> | string | null
     imageUrl?: StringNullableFilter<"Species"> | string | null
     diet?: StringNullableFilter<"Species"> | string | null
@@ -8859,6 +8889,8 @@ export namespace Prisma {
     id?: SortOrder
     scientificName?: SortOrder
     commonName?: SortOrderInput | SortOrder
+    class?: SortOrderInput | SortOrder
+    family?: SortOrderInput | SortOrder
     description?: SortOrderInput | SortOrder
     imageUrl?: SortOrderInput | SortOrder
     diet?: SortOrderInput | SortOrder
@@ -8890,6 +8922,8 @@ export namespace Prisma {
     NOT?: SpeciesWhereInput | SpeciesWhereInput[]
     scientificName?: StringFilter<"Species"> | string
     commonName?: StringNullableFilter<"Species"> | string | null
+    class?: StringNullableFilter<"Species"> | string | null
+    family?: StringNullableFilter<"Species"> | string | null
     description?: StringNullableFilter<"Species"> | string | null
     imageUrl?: StringNullableFilter<"Species"> | string | null
     diet?: StringNullableFilter<"Species"> | string | null
@@ -8918,6 +8952,8 @@ export namespace Prisma {
     id?: SortOrder
     scientificName?: SortOrder
     commonName?: SortOrderInput | SortOrder
+    class?: SortOrderInput | SortOrder
+    family?: SortOrderInput | SortOrder
     description?: SortOrderInput | SortOrder
     imageUrl?: SortOrderInput | SortOrder
     diet?: SortOrderInput | SortOrder
@@ -8951,6 +8987,8 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Species"> | string
     scientificName?: StringWithAggregatesFilter<"Species"> | string
     commonName?: StringNullableWithAggregatesFilter<"Species"> | string | null
+    class?: StringNullableWithAggregatesFilter<"Species"> | string | null
+    family?: StringNullableWithAggregatesFilter<"Species"> | string | null
     description?: StringNullableWithAggregatesFilter<"Species"> | string | null
     imageUrl?: StringNullableWithAggregatesFilter<"Species"> | string | null
     diet?: StringNullableWithAggregatesFilter<"Species"> | string | null
@@ -9350,6 +9388,8 @@ export namespace Prisma {
     id?: string
     scientificName: string
     commonName?: string | null
+    class?: string | null
+    family?: string | null
     description?: string | null
     imageUrl?: string | null
     diet?: string | null
@@ -9378,6 +9418,8 @@ export namespace Prisma {
     id?: string
     scientificName: string
     commonName?: string | null
+    class?: string | null
+    family?: string | null
     description?: string | null
     imageUrl?: string | null
     diet?: string | null
@@ -9406,6 +9448,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     scientificName?: StringFieldUpdateOperationsInput | string
     commonName?: NullableStringFieldUpdateOperationsInput | string | null
+    class?: NullableStringFieldUpdateOperationsInput | string | null
+    family?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     diet?: NullableStringFieldUpdateOperationsInput | string | null
@@ -9434,6 +9478,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     scientificName?: StringFieldUpdateOperationsInput | string
     commonName?: NullableStringFieldUpdateOperationsInput | string | null
+    class?: NullableStringFieldUpdateOperationsInput | string | null
+    family?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     diet?: NullableStringFieldUpdateOperationsInput | string | null
@@ -9462,6 +9508,8 @@ export namespace Prisma {
     id?: string
     scientificName: string
     commonName?: string | null
+    class?: string | null
+    family?: string | null
     description?: string | null
     imageUrl?: string | null
     diet?: string | null
@@ -9489,6 +9537,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     scientificName?: StringFieldUpdateOperationsInput | string
     commonName?: NullableStringFieldUpdateOperationsInput | string | null
+    class?: NullableStringFieldUpdateOperationsInput | string | null
+    family?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     diet?: NullableStringFieldUpdateOperationsInput | string | null
@@ -9516,6 +9566,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     scientificName?: StringFieldUpdateOperationsInput | string
     commonName?: NullableStringFieldUpdateOperationsInput | string | null
+    class?: NullableStringFieldUpdateOperationsInput | string | null
+    family?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     diet?: NullableStringFieldUpdateOperationsInput | string | null
@@ -10024,6 +10076,8 @@ export namespace Prisma {
     id?: SortOrder
     scientificName?: SortOrder
     commonName?: SortOrder
+    class?: SortOrder
+    family?: SortOrder
     description?: SortOrder
     imageUrl?: SortOrder
     diet?: SortOrder
@@ -10051,6 +10105,8 @@ export namespace Prisma {
     id?: SortOrder
     scientificName?: SortOrder
     commonName?: SortOrder
+    class?: SortOrder
+    family?: SortOrder
     description?: SortOrder
     imageUrl?: SortOrder
     diet?: SortOrder
@@ -10078,6 +10134,8 @@ export namespace Prisma {
     id?: SortOrder
     scientificName?: SortOrder
     commonName?: SortOrder
+    class?: SortOrder
+    family?: SortOrder
     description?: SortOrder
     imageUrl?: SortOrder
     diet?: SortOrder
@@ -11213,6 +11271,8 @@ export namespace Prisma {
     id?: string
     scientificName: string
     commonName?: string | null
+    class?: string | null
+    family?: string | null
     description?: string | null
     imageUrl?: string | null
     diet?: string | null
@@ -11240,6 +11300,8 @@ export namespace Prisma {
     id?: string
     scientificName: string
     commonName?: string | null
+    class?: string | null
+    family?: string | null
     description?: string | null
     imageUrl?: string | null
     diet?: string | null
@@ -11371,6 +11433,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     scientificName?: StringFieldUpdateOperationsInput | string
     commonName?: NullableStringFieldUpdateOperationsInput | string | null
+    class?: NullableStringFieldUpdateOperationsInput | string | null
+    family?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     diet?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11398,6 +11462,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     scientificName?: StringFieldUpdateOperationsInput | string
     commonName?: NullableStringFieldUpdateOperationsInput | string | null
+    class?: NullableStringFieldUpdateOperationsInput | string | null
+    family?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     diet?: NullableStringFieldUpdateOperationsInput | string | null

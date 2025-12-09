@@ -46,6 +46,8 @@ model Species {
   id                 String     @id @default(uuid())
   scientificName     String
   commonName         String?
+  class              String?
+  family             String?
   description        String?
   imageUrl           String?
   diet               String?

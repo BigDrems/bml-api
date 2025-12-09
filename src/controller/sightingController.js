@@ -104,7 +104,7 @@ export const getAllSightings = async (req, res) => {
     const skip = (page - 1) * limit;
 
     const where = {};
-    if (req.query.status) where.status = req.query.status;
+    if (req.query.status) where.status = req.query.status.toUpperCase();
     if (req.query.speciesId) where.speciesId = req.query.speciesId;
     if (req.query.userUid) where.userUid = req.query.userUid;
 
@@ -210,12 +210,94 @@ export const verifySighting = async (req, res) => {
 
     const sighting = await prisma.sighting.update({
       where: { id: req.params.id },
-      data: { status: "VERIFIED" }
+      data: { status: "VERIFIED" },
+      include: {
+        user: true,
+        species: true,
+        location: true
+      }
     });
 
     res.json({ message: "Sighting verified", sighting });
   } catch (err) {
     handleError(res, "Failed to verify sighting", err);
+  }
+};
+
+// Admin approve sighting
+export const approveSighting = async (req, res) => {
+  try {
+    if (req.user.role !== "ADMIN") {
+      return res.status(403).json({ message: "Admin access required" });
+    }
+
+    const { id } = req.params;
+    if (!id || id === 'undefined') {
+      return res.status(400).json({ message: "Invalid sighting ID" });
+    }
+
+    // Check if sighting exists first
+    const existingSighting = await prisma.sighting.findUnique({ where: { id } });
+    if (!existingSighting) {
+      return res.status(404).json({ message: "Sighting not found" });
+    }
+
+    const sighting = await prisma.sighting.update({
+      where: { id },
+      data: { status: "VERIFIED" },
+      include: {
+        user: true,
+        species: true,
+        location: true
+      }
+    });
+
+    res.json({ message: "Sighting approved", sighting });
+  } catch (err) {
+    handleError(res, "Failed to approve sighting", err);
+  }
+};
+
+// Admin reject sighting
+export const rejectSighting = async (req, res) => {
+  try {
+    if (req.user.role !== "ADMIN") {
+      return res.status(403).json({ message: "Admin access required" });
+    }
+
+    const { id } = req.params;
+    if (!id || id === 'undefined') {
+      return res.status(400).json({ message: "Invalid sighting ID" });
+    }
+
+    const { reason } = req.body;
+
+    // Check if sighting exists first
+    const existingSighting = await prisma.sighting.findUnique({ where: { id } });
+    if (!existingSighting) {
+      return res.status(404).json({ message: "Sighting not found" });
+    }
+
+    const sighting = await prisma.sighting.update({
+      where: { id },
+      data: { 
+        status: "REJECTED",
+        notes: reason ? `REJECTED: ${reason}` : existingSighting.notes 
+      },
+      include: {
+        user: true,
+        species: true,
+        location: true
+      }
+    });
+
+    // TODO: Send notification to user
+    // You can implement email notification here
+    // Example: await sendRejectionEmail(sighting.user.email, sighting, reason);
+
+    res.json({ message: "Sighting rejected", sighting });
+  } catch (err) {
+    handleError(res, "Failed to reject sighting", err);
   }
 };
 
