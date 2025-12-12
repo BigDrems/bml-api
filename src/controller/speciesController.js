@@ -1,6 +1,6 @@
 import { prisma } from "../prisma/client.js";
 import { validationResult } from "express-validator";
-
+import { updatableFields } from "../const/species/updateField.js";
 /**
  * Create new species (Admin only)
  */
@@ -105,11 +105,18 @@ export const getSpeciesById = async (req, res) => {
 /**
  * Update species (Admin only)
  */
+
 export const updateSpecies = async (req, res) => {
+  const updateData = {};
+    for (const field of updatableFields) {
+      if (req.body[field] !== undefined && req.body[field] !== null) {
+        updateData[field] = req.body[field];
+      }
+    }
   try {
     const updated = await prisma.species.update({
       where: { id: req.params.id },
-      data: req.body,
+      data: updateData,
     });
     res.status(200).json({ message: "Species updated", updated });
   } catch (err) {
